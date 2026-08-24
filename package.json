@@ -1,0 +1,24 @@
+{
+  "name": "bercy-fx-orchestrator",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "packageManager": "pnpm@10.6.4",
+  "dependencies": {
+    "@hono/node-server": "^1.11.0",
+    "@x402/avm": "^2.11.0",
+    "@x402/core": "^2.11.0",
+    "@x402/hono": "^2.11.0",
+    "@x402-avm/extensions": "^2.6.1",
+    "dotenv": "^16.4.5",
+    "hono": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
