@@ -50,18 +50,6 @@ app.use(
                 description: "Bercy cross-border payment orchestrator: finds optimal route across 20+ currency corridors using USDC on Algorand. Input: { from, to, amount }. Returns: best FX rate, output amount, settlement path.",
                 mimeType: "application/json",
                 extensions: declareDiscoveryExtension({
-                    input: {
-                        method: "POST",
-                        schema: {
-                            type: "object",
-                            properties: {
-                                from: { type: "string" },
-                                to: { type: "string" },
-                                amount: { type: "number" }
-                            },
-                            required: ["from", "to", "amount"]
-                        }
-                    },
                     output: {
                         example: {
                             success: true,
@@ -109,5 +97,3 @@ const PORT = parseInt(process.env.PORT || "4021");
 serve({ fetch: app.fetch, port: PORT }, () => {
     console.log(`Bercy FX Orchestrator running on port ${PORT}`);
 });
-
-        
