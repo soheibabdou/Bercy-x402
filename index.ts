@@ -1,5 +1,5 @@
           
-// BERCY FX ORCHESTRATOR - REAL x402 IMPLEMENTATION
+// BERCY FX ORCHESTRATOR - MAINNET
 import { config } from "dotenv";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
@@ -8,7 +8,7 @@ import { ExactAvmScheme } from "@x402/avm/exact/server";
 import { HTTPFacilitatorClient } from "@x402/core/server";
 import { declareDiscoveryExtension, bazaarResourceServerExtension } from "@x402-avm/extensions";
 import type { ResourceServerExtension } from "@x402/core/types";
-import { ALGORAND_TESTNET_CAIP2, USDC_TESTNET_ASA_ID } from "@x402/avm";
+import { ALGORAND_MAINNET_CAIP2, USDC_MAINNET_ASA_ID } from "@x402/avm";
 
 config();
 
@@ -17,7 +17,7 @@ const facilitatorUrl = process.env.FACILITATOR_URL || "https://facilitator.gopla
 
 const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
 const server = new x402ResourceServer(facilitatorClient)
-    .register(ALGORAND_TESTNET_CAIP2, new ExactAvmScheme());
+    .register(ALGORAND_MAINNET_CAIP2, new ExactAvmScheme());
 
 server.registerExtension(bazaarResourceServerExtension as unknown as ResourceServerExtension);
 
@@ -40,10 +40,10 @@ app.use(
                 accepts: [{
                     scheme: "exact",
                     price: "$0.10",
-                    network: ALGORAND_TESTNET_CAIP2,
+                    network: ALGORAND_MAINNET_CAIP2,
                     payTo: avmAddress,
                     extra: {
-                        asset: USDC_TESTNET_ASA_ID,
+                        asset: USDC_MAINNET_ASA_ID,
                         tag: "x402-global-challenge"
                     },
                 }],
@@ -98,5 +98,16 @@ app.post("/api/orchestrate", async (c) => {
             path: `${from.toUpperCase()} -> USDC (Algorand) -> ${to.toUpperCase()}`,
             effectiveRate: Math.round(effectiveRate * 10000) / 10000,
             estimatedOutput: Math.round(amount * effectiveRate * 100) / 100,
-            networkFee
+            networkFee: "0.001 ALGO",
+            settlementTime: "< 4 seconds",
+            tag: "x402-global-challenge"
+        }
+    });
+});
+
+const PORT = parseInt(process.env.PORT || "4021");
+serve({ fetch: app.fetch, port: PORT }, () => {
+    console.log(`Bercy FX Orchestrator running on port ${PORT}`);
+});
+
         
