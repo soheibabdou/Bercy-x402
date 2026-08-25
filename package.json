@@ -8,6 +8,7 @@
   },
   "packageManager": "pnpm@10.6.4",
   "dependencies": {
+    "@algorandfoundation/ac2-sdk": "latest",
     "@hono/node-server": "^1.11.0",
     "@x402/avm": "^2.11.0",
     "@x402/core": "^2.11.0",
@@ -22,3 +23,4 @@
     "typescript": "^5.4.0"
   }
 }
+</thinking>
