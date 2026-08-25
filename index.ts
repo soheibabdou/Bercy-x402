@@ -1,4 +1,4 @@
-
+          
 // BERCY FX ORCHESTRATOR - REAL x402 IMPLEMENTATION
 import { config } from "dotenv";
 import { Hono } from "hono";
@@ -50,13 +50,25 @@ app.use(
                 description: "Bercy cross-border payment orchestrator: finds optimal route across 20+ currency corridors using USDC on Algorand. Input: { from, to, amount }. Returns: best FX rate, output amount, settlement path.",
                 mimeType: "application/json",
                 extensions: declareDiscoveryExtension({
+                    input: {
+                        method: "POST",
+                        schema: {
+                            type: "object",
+                            properties: {
+                                from: { type: "string" },
+                                to: { type: "string" },
+                                amount: { type: "number" }
+                            },
+                            required: ["from", "to", "amount"]
+                        }
+                    },
                     output: {
                         example: {
                             success: true,
                             route: {
-                                path: "DZD -> USDC (Algorand) -> NGN",
-                                effectiveRate: 0.0851,
-                                estimatedOutput: 8.51,
+                                path: "DZD -> USDC -> EUR",
+                                effectiveRate: 0.0074,
+                                estimatedOutput: 7.4,
                                 networkFee: "0.001 ALGO",
                                 settlementTime: "< 4 seconds"
                             }
@@ -86,16 +98,5 @@ app.post("/api/orchestrate", async (c) => {
             path: `${from.toUpperCase()} -> USDC (Algorand) -> ${to.toUpperCase()}`,
             effectiveRate: Math.round(effectiveRate * 10000) / 10000,
             estimatedOutput: Math.round(amount * effectiveRate * 100) / 100,
-            networkFee: "0.001 ALGO",
-            settlementTime: "< 4 seconds",
-            tag: "x402-global-challenge"
-        }
-    });
-});
-
-const PORT = parseInt(process.env.PORT || "4021");
-serve({ fetch: app.fetch, port: PORT }, () => {
-    console.log(`Bercy FX Orchestrator running on port ${PORT}`);
-});
-
-    
+            networkFee
+        
