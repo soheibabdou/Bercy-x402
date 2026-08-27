@@ -1,24 +1,30 @@
 {
   "name": "bercy-fx-orchestrator",
   "version": "1.0.0",
+  "description": "World's first AC2 + x402 cross-border FX orchestrator on Algorand Mainnet",
   "type": "module",
-  "main": "index.ts",
   "scripts": {
-    "start": "tsx index.ts"
+    "start": "tsx index.ts",
+    "client": "tsx client.ts",
+    "dev": "tsx --watch index.ts"
   },
   "dependencies": {
     "@algorandfoundation/ac2-sdk": "latest",
     "@hono/node-server": "^1.11.0",
+    "@x402-avm/extensions": "^2.6.1",
     "@x402/avm": "^2.11.0",
     "@x402/core": "^2.11.0",
     "@x402/hono": "^2.11.0",
-    "@x402-avm/extensions": "^2.6.1",
+    "algosdk": "^3.0.0",
     "dotenv": "^16.4.5",
     "hono": "^4.1.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
+    "@types/node": "^22.0.0",
     "tsx": "^4.7.0",
     "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
